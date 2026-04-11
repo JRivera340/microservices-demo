@@ -2,7 +2,10 @@ name: Infra - Terraform
 
 on:
   push:
-    branches: ["infra/**"]
+    branches: [main, develop, "feature/**", "infra/**"]
+    paths:
+      - 'infra/**'
+      - '.github/workflows/infra.yml'
   workflow_dispatch:
 
 jobs:
