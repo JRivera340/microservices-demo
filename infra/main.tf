@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "frontend" {
     namespace = kubernetes_namespace.app.metadata[0].name
   }
   spec {
-    replicas = 3
+    replicas = 4
     selector {
       match_labels = {
         app = "frontend"
