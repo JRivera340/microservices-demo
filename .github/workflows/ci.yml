@@ -22,16 +22,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push frontend
+      - name: Build and push vote app
         uses: docker/build-push-action@v5
         with:
-          context: ./src/frontend
+          context: ./vote
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/vote:${{ github.sha }}
 
-      - name: Build and push cartservice
+      - name: Build and push result app
         uses: docker/build-push-action@v5
         with:
-          context: ./src/cartservice/src
+          context: ./result
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cartservice:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/result:${{ github.sha }}
+
+      - name: Build and push worker
+        uses: docker/build-push-action@v5
+        with:
+          context: ./worker
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/worker:${{ github.sha }}
