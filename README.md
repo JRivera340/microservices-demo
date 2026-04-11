@@ -1,49 +1,30 @@
-# Microservices Demo
+# Taller 1 - Cloud Pipelines
 
-A demo application with Java, Go, Javascript, Kafka and PostgresQL.
+## Descripción
+Pipeline de CI/CD para el proyecto microservices-demo usando GitHub Actions, Docker y Terraform.
 
-## Architecture
+## Metodología
+Scrum con sprints de 2 semanas. Ver [BRANCHING.md](./BRANCHING.md) para la estrategia de ramas.
 
-![Architecture diagram](architecture.png)
+## Patrones de diseño cloud
 
-* A front-end web app in [Java](/vote) which lets you vote between Tacos and Burritos
-* A [Kafka](https://bitnami.com/stack/kafka/helm) queue which collects new votes
-* A [Golang](/worker) or worker which consumes votes from Kafka and stores them in PostgresQL
-* A [PostgresQL](https://bitnami.com/stack/postgresql/helm) database
-* A [Node.js](/result) webapp which shows the results of the voting in real time
+### 1. Sidecar Pattern
+Cada microservicio corre junto a un proxy Envoy como contenedor sidecar. El sidecar maneja tráfico, retries, timeouts y observabilidad sin tocar el código del servicio principal.
 
-## Run the demo application in Okteto
+### 2. Circuit Breaker
+Implementado entre servicios para evitar cascada de fallos. Si un servicio no responde en 3 intentos, el circuito se abre y retorna una respuesta de fallback, protegiendo el resto del sistema.
 
+## Pipelines
+- **CI:** `.github/workflows/ci.yml` — build y push a Docker Hub en cada push
+- **Infra:** `.github/workflows/infra.yml` — Terraform plan y apply automático
+
+## Arquitectura
+- GitHub Actions como motor de CI/CD
+- Docker Hub como registry de imágenes
+- Kubernetes como plataforma de despliegue
+- Terraform para gestión de infraestructura como código
+
+## Cómo correr localmente
+```bash
+docker-compose up --build
 ```
-$ git clone https://github.com/okteto/microservices-demo
-$ cd microservices-demo
-$ okteto login
-$ okteto deploy
-```
-
-## Develop on the Result microservice
-
-```
-$ okteto up result
-```
-
-## Develop on the Vote microservice
-
-```
-$ okteto up vote
-```
-
-## Develop on the Worker microservice
-
-```
-$ okteto up worker
-$ make start
-```
-
-## Notes
-
-The voting application only accepts one vote per client. It does not register votes if a vote has already been submitted from a client.
-
-This isn't an example of a properly architected perfectly designed distributed app... it's just a simple
-example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to
-deal with them in Okteto.
