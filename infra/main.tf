@@ -24,7 +24,7 @@ resource "kubernetes_deployment" "vote" {
     namespace = kubernetes_namespace.app.metadata[0].name
   }
   spec {
-    replicas = 2
+    replicas = 3
     selector {
       match_labels = {
         app = "vote"
