@@ -8,3 +8,9 @@ variable "app_namespace" {
   type        = string
   default     = "microservices-demo"
 }
+
+variable "image_tag" {
+  description = "Tag for the docker images (usually commit SHA)"
+  type        = string
+  default     = "latest"
+}

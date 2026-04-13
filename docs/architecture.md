@@ -3,13 +3,15 @@
 ## Componentes
 
 ### Servicios
-- **vote** — Aplicación Python que permite a los usuarios votar
+- **vote** — Aplicación Java (Spring Boot) que permite a los usuarios votar
 - **result** — Aplicación Node.js que muestra los resultados en tiempo real  
 - **worker** — Worker en Go que procesa los votos de la cola
 
 ### Infraestructura
 - **Docker Hub** — Registry de imágenes: jrivera340/vote, jrivera340/result, jrivera340/worker
 - **Kubernetes** — Plataforma de orquestación con namespace microservices-demo
+- **Kafka** — Sistema de mensajería para desacoplamiento entre vote y worker
+- **PostgreSQL** — Base de datos para persistencia de votos
 - **GitHub Actions** — Motor de CI/CD automatizado
 
 ## Patrones de Diseño Cloud
